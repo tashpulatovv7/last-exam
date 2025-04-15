@@ -119,6 +119,7 @@
 }
 
 .book-card {
+	cursor: pointer;
 	border: 1px solid #eaeaea;
 	border-radius: 8px;
 	padding: 20px;

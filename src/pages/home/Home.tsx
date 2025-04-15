@@ -1,4 +1,5 @@
 import { FaBook, FaClock, FaMapMarkerAlt, FaSearch } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import './home.css';
 
 const Home = () => {
@@ -84,7 +85,12 @@ const Home = () => {
 							</div>
 						))}
 					</div>
-					<button className='explore-button'>Explore All Libraries</button>
+
+					<Link to='/libraryList'>
+						<button className='explore-button'>
+							Explore All Libraries
+						</button>
+					</Link>
 				</div>
 			</div>
 		</div>
