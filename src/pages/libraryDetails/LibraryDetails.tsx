@@ -1,4 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
+import {
+	FaBook,
+	FaBuilding,
+	FaCheckCircle,
+	FaExternalLinkAlt,
+	FaMapMarkerAlt,
+	FaPhone,
+	FaTimesCircle,
+	FaUserAlt,
+} from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 import API from '../../API';
 import './libraryDetails.css';
@@ -38,45 +48,75 @@ const LibraryDetail = () => {
 		enabled: !!id,
 	});
 
-	if (isLoading) return <h1 className='text-center text-3xl'>Yuklanmoqda...</h1>;
+	if (isLoading) return <h1 className='text-center text-3xl'>Loading...</h1>;
 	if (isError || !data)
-		return <h1 className='text-center text-red-500 text-xl'>Xatolik yuz berdi</h1>;
+		return <h1 className='text-center text-red-500 text-xl'>An error occurred</h1>;
 
 	const { library, books, phone, is_active, total_books } = data;
 
 	return (
 		<div className='library-detail-container'>
-			<div className='library-info-card'>
-				<h1>{library?.name}</h1>
-				<p>📍 {library?.address}</p>
-				{phone && <p>📞 {phone}</p>}
-				<p className={is_active ? 'status-active' : 'status-inactive'}>
-					Status: {is_active ? 'Faol' : 'Faol emas'}
-				</p>
-				<p className='total-books'>📚 Jami kitoblar: {total_books}</p>
-				{library?.google_maps_url && (
-					<a
-						href={library.google_maps_url}
-						target='_blank'
-						rel='noopener noreferrer'
-					>
-						📌 Google Maps
-					</a>
-				)}
+			<div className='library-card'>
+				<div className='library-image-section'>
+					<img
+						src='https://v0-ezma-project-details.vercel.app/placeholder.svg?height=400&width=300'
+						alt='Library placeholder'
+					/>
+				</div>
+				<div className='library-info-section'>
+					<h1>{library.name}</h1>
+					<p>
+						<FaMapMarkerAlt /> {library.address}
+					</p>
+					{phone && (
+						<p>
+							<FaPhone /> {phone}
+						</p>
+					)}
+					<p className={is_active ? 'status-active' : 'status-inactive'}>
+						{is_active ? <FaCheckCircle /> : <FaTimesCircle />}{' '}
+						{is_active ? 'Active' : 'Inactive'}
+					</p>
+					<p className='total-books'>
+						<FaBook /> Total Books: {total_books}
+					</p>
+					{library.google_maps_url && (
+						<a
+							href={library.google_maps_url}
+							target='_blank'
+							rel='noopener noreferrer'
+						>
+							<FaExternalLinkAlt /> Google Maps
+						</a>
+					)}
+				</div>
 			</div>
 
-			<div className='books-grid'>
-				{books?.length > 0 ? (
-					books.map((book: Book) => (
-						<div key={book.id} className='book-card'>
-							<h2>{book.name}</h2>
-							<p>✍️ {book.author}</p>
-							<p>🏢 {book.publisher}</p>
-							<p>Soni: {book.quantity_in_library}</p>
+			<h2 className='books-header'>Books</h2>
+			<div className='modern-books-grid'>
+				{books.length > 0 ? (
+					books.map(book => (
+						<div key={book.id} className='modern-book-card'>
+							<div className='book-icon'>
+								<FaBook />
+							</div>
+							<div className='book-info'>
+								<h3>{book.name}</h3>
+								<p>
+									<FaUserAlt /> {book.author}
+								</p>
+								<p>
+									<FaBuilding /> {book.publisher}
+								</p>
+								<p>
+									<FaBook /> Quantity:{' '}
+									{book.quantity_in_library}
+								</p>
+							</div>
 						</div>
 					))
 				) : (
-					<p className='no-books'>Kitoblar mavjud emas</p>
+					<p className='no-books'>No books available</p>
 				)}
 			</div>
 		</div>

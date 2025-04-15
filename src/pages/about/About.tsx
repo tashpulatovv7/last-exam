@@ -37,7 +37,7 @@ const About = () => {
 	};
 
 	return (
-		<div className='container'>
+		<div className='container mt-5'>
 			<div className='about-ezma'>
 				<h2>About Ezma</h2>
 				<p>
