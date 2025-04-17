@@ -179,6 +179,56 @@ input:focus {
 	background-color: #ae8445;
 }
 
+.back-home-register {
+	text-align: left;
+	margin-bottom: 30px;
+}
+
+.back-home-link-register {
+	display: inline-block;
+	padding: 10px 20px;
+	border: 2px solid #ce8e2e;
+	border-radius: 8px;
+	color: #ce8e2e;
+	font-size: 16px;
+	font-weight: 500;
+	text-decoration: none;
+	transition: all 0.3s ease;
+}
+
+.back-home-link-register:hover {
+	background-color: #ce8e2e;
+	color: white;
+}
+
+.back-login-register {
+	text-align: left;
+	margin-bottom: 30px;
+}
+
+.back-login-link-register {
+	display: inline-block;
+	padding: 10px 20px;
+	border: 2px solid #ce8e2e;
+	border-radius: 8px;
+	color: #ce8e2e;
+	font-size: 16px;
+	font-weight: 500;
+	text-decoration: none;
+	transition: all 0.3s ease;
+}
+
+.back-login-link-register:hover {
+	background-color: #ce8e2e;
+	color: white;
+}
+
+.back-from-register {
+	display: flex;
+	margin-top: 20px;
+	gap: 10px;
+}
+
 @media (max-width: 768px) {
 	.register {
 		padding: 1rem;

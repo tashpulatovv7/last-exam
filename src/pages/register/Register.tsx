@@ -4,8 +4,9 @@ import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 import React, { useState } from 'react';
+import { FaBookOpen } from 'react-icons/fa';
 import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './register.css';
 
 interface RegisterData {
@@ -116,6 +117,27 @@ const Register: React.FC = () => {
 
 	return (
 		<div className='register-container'>
+			<div className='logo' style={{ marginBottom: '30px' }}>
+				<div className='book-icon-badge'>
+					<FaBookOpen />
+				</div>
+				<span className='logo-text'>EZMA</span>
+			</div>
+
+			<div className='back-from-register'>
+				<div className='back-home-register'>
+					<Link to='/' className='back-home-link-register'>
+						← To Home
+					</Link>
+				</div>
+
+				<div className='back-login-register'>
+					<Link to='/login' className='back-login-link-register'>
+						← To Login
+					</Link>
+				</div>
+			</div>
+
 			<h1 className='register-title'>Library Registration</h1>
 			<p className='register-subtitle'>Fill in the library information</p>
 

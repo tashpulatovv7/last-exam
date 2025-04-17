@@ -21,7 +21,6 @@ export interface LoginResponse {
 const login = async ({ phone, password }: LoginData): Promise<LoginResponse> => {
 	try {
 		const response = await API.post('/auth/login/', { phone, password });
-
 		console.log('Login response:', response.data);
 
 		const data = response.data;
@@ -47,7 +46,7 @@ const login = async ({ phone, password }: LoginData): Promise<LoginResponse> => 
 			};
 		}
 
-		throw new Error('Unexpected login response structure');
+		throw new Error('Unexpected login response structure: ' + JSON.stringify(data));
 	} catch (error) {
 		console.error('Login error:', error);
 		throw error;
@@ -67,7 +66,7 @@ export const useLogin = () => {
 			localStorage.setItem('user', JSON.stringify(response.user));
 
 			message.success('Login successful!');
-			navigate('/');
+			navigate('/profile');
 		} catch (error: any) {
 			message.error('Login failed: Incorrect phone or password');
 		} finally {

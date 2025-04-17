@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { FaBookOpen } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useLogin } from '../../hooks/useLogin';
 import './login.css';
+
 
 const Login = () => {
 	const [phone, setPhone] = useState('');
@@ -15,6 +17,13 @@ const Login = () => {
 
 	return (
 		<div className='login-container'>
+			<div className='logo' style={{ marginBottom: '50px' }}>
+				<div className='book-icon-badge'>
+					<FaBookOpen />
+				</div>
+				<span className='logo-text'>EZMA</span>
+			</div>
+
 			<div className='login-card'>
 				<h2>Login</h2>
 				<p className='subtitle'>Enter your credentials to access your account</p>
@@ -48,6 +57,12 @@ const Login = () => {
 					Don't have an account?{' '}
 					<Link to='/register'>Register as a librarian</Link>
 				</p>
+
+				<div className='back-home-login'>
+					<Link to='/' className='back-home-link-login'>
+						← To Home
+					</Link>
+				</div>
 			</div>
 		</div>
 	);

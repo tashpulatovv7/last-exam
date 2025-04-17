@@ -12,9 +12,16 @@ const API = axios.create({
 API.interceptors.request.use(
 	config => {
 		const token = localStorage.getItem('token');
-		if (token) {
+
+		if (
+			token &&
+			config.url &&
+			!config.url.includes('/auth/login/') &&
+			!config.url.includes('/auth/register/')
+		) {
 			config.headers['Authorization'] = `Bearer ${token}`;
 		}
+
 		return config;
 	},
 	error => {
@@ -52,10 +59,46 @@ export default API;
 
 export const getLibraryDetail = async (id: string) => {
 	try {
-		const res = await axios.get(`https://s-libraries.uz/api/v1/libraries/library/${id}/`);
+		const res = await API.get(`/libraries/library/${id}/`);
 		return res.data;
 	} catch (error) {
 		console.error('Error fetching library details:', error);
-		throw new Error('Kitoblar ro‘yxatini olishda xatolik yuz berdi.');
+		throw new Error('Failed to fetch library details.');
+	}
+};
+
+export const getProfile = async () => {
+	try {
+		const res = await API.get('/auth/profile/');
+		return res.data;
+	} catch (error) {
+		console.error('Error fetching profile:', error);
+		throw new Error('Failed to fetch profile data.');
+	}
+};
+
+export const updateProfile = async (data: any) => {
+	const token = localStorage.getItem('token');
+	if (!token) throw new Error('Token not found');
+
+	try {
+		const res = await fetch('https://s-libraries.uz/api/v1/auth/profile/', {
+			method: 'PATCH',
+			headers: {
+				Authorization: `Bearer ${token}`,
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		});
+
+		if (!res.ok) {
+			const errData = await res.json();
+			throw new Error(errData.message || 'Error updating profile');
+		}
+
+		return await res.json();
+	} catch (error) {
+		console.error('Error updating profile:', error);
+		throw error;
 	}
 };

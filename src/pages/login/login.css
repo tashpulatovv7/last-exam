@@ -7,6 +7,7 @@ body {
 
 .login-container {
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
@@ -102,4 +103,20 @@ body {
 
 .register-text a:hover {
 	text-decoration: underline;
+}
+
+.back-home-login {
+	margin-top: 20px;
+	text-align: center;
+}
+
+.back-home-link-login {
+	color: #3498db;
+	text-decoration: none;
+	font-weight: 500;
+	transition: color 0.2s ease;
+}
+
+.back-home-link-login:hover {
+	color: #21618c;
 }
