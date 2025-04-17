@@ -1,0 +1,146 @@
+.library-detail-container {
+	padding: 40px 30px;
+	font-family: 'Inter', sans-serif;
+	min-height: 100vh;
+	margin-top: 100px;
+}
+
+.library-card {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	background-color: #fff;
+	border-radius: 20px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+	overflow: hidden;
+	margin-bottom: 50px;
+	border-left: 6px solid #ce8e2e;
+}
+
+.library-card:hover {
+	transform: translateY(-0.05px);
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 1.08);
+	border-color: #d4a373;
+}
+
+.library-info-section {
+	flex: 1;
+	padding: 30px;
+	min-width: 280px;
+}
+
+.library-info-section h1 {
+	font-size: 2rem;
+	margin-bottom: 15px;
+	color: #333;
+}
+
+.library-info-section p {
+	font-size: 1rem;
+	color: #555;
+	margin: 10px 0;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.library-info-section a {
+	display: inline-flex;
+	align-items: center;
+	color: #ce8e2e;
+	text-decoration: none;
+	font-weight: 500;
+	margin-top: 10px;
+	transition: color 0.3s ease;
+}
+
+.library-info-section a:hover {
+	color: #b3741e;
+}
+
+.status-active {
+	color: #4caf50;
+	font-weight: bold;
+}
+
+.status-inactive {
+	color: #f44336;
+	font-weight: bold;
+}
+
+.total-books {
+	font-weight: bold;
+	color: #333;
+}
+
+.library-image-section {
+	flex-shrink: 0;
+}
+
+.library-image-section img {
+	width: 320px;
+	height: 100%;
+	object-fit: cover;
+	border-top-right-radius: 20px;
+	border-bottom-right-radius: 20px;
+}
+
+.books-header {
+	font-size: 1.5rem;
+	font-weight: 600;
+	margin-bottom: 20px;
+	color: #444;
+}
+
+.modern-books-grid {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.modern-book-card {
+	display: flex;
+	align-items: flex-start;
+	background-color: #fff;
+	border-radius: 14px;
+	padding: 15px 20px;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+	border-left: 5px solid #ce8e2e;
+	transition: transform 0.2s ease;
+	gap: 20px;
+}
+
+.modern-book-card:hover {
+	transform: translateY(-2px);
+}
+
+.book-icon {
+	font-size: 40px;
+	color: #ce8e2e;
+	min-width: 40px;
+	margin-top: 5px;
+}
+
+.book-info {
+	flex: 1;
+}
+
+.book-info h3 {
+	font-size: 1.1rem;
+	color: #333;
+	margin-bottom: 8px;
+}
+
+.book-info p {
+	font-size: 0.95rem;
+	color: #555;
+	margin-bottom: 6px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.no-books {
+	font-style: italic;
+	color: #888;
+}
