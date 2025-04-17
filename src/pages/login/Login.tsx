@@ -4,15 +4,14 @@ import { Link } from 'react-router-dom';
 import { useLogin } from '../../hooks/useLogin';
 import './login.css';
 
-
 const Login = () => {
 	const [phone, setPhone] = useState('');
 	const [password, setPassword] = useState('');
 	const { handleLogin, loading } = useLogin();
 
-	const onSubmit = async (e: React.FormEvent) => {
+	const onSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		await handleLogin({ phone, password });
+		handleLogin({ phone, password });
 	};
 
 	return (
