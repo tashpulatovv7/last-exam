@@ -65,9 +65,9 @@ const Header = () => {
 						</Link>
 						{isLoggedIn && (
 							<Link
-								to='/addbooks'
+								to='/addBooks'
 								className={
-									location.pathname === '/addbooks'
+									location.pathname === '/addBooks'
 										? 'active-page'
 										: ''
 								}

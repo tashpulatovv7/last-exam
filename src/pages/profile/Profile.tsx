@@ -7,13 +7,14 @@ import {
 	FaUserCircle,
 	FaUserEdit,
 } from 'react-icons/fa';
+import { updateRemoteProfile } from '../../API'; // ✅ Muhim: update funksiyasini import qilish
 import useProfile from '../../hooks/useProfile';
 import './profile.css';
 
 const Profile = () => {
 	const { profile, loading, error, refetch } = useProfile();
 	const [isEditing, setIsEditing] = useState(false);
-	const [, setFormData] = useState<any>({});
+	const [formData, setFormData] = useState<any>({}); // ✅ Form ma'lumotlarini saqlash
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value, type, checked } = e.target;
@@ -38,15 +39,15 @@ const Profile = () => {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		try {
-			// const updated = {
-			// 	...profile,
-			// 	...formData,
-			// 	social_media: {
-			// 		...profile.social_media,
-			// 		...(formData.social_media || {}),
-			// 	},
-			// };
-			// await updateProfile(updated);
+			const updated = {
+				...profile,
+				...formData,
+				social_media: {
+					...profile.social_media,
+					...(formData.social_media || {}),
+				},
+			};
+			await updateRemoteProfile(updated); // ✅ to'g'ri funksiya chaqirilmoqda
 			await refetch();
 			setIsEditing(false);
 			setFormData({});

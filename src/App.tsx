@@ -38,7 +38,14 @@ const App = () => {
 					element={
 						<PrivateRoute>
 							<Profile />
-							<Route path='/addbooks' element={<AddBooks />} />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path='/addBooks'
+					element={
+						<PrivateRoute>
+							<AddBooks />
 						</PrivateRoute>
 					}
 				/>
