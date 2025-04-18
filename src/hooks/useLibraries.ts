@@ -16,6 +16,13 @@ export const useLibraries = () => {
 	const [error, setError] = useState<string>('');
 
 	useEffect(() => {
+/*************  ✨ Windsurf Command ⭐  *************/
+	/**
+	 * Fetches the list of libraries from the API.
+	 *
+	 * @throws {Error} If the API call fails.
+	 */
+/*******  05a9b421-85e6-4bfe-971c-c006157e2094  *******/
 		const fetchLibraries = async () => {
 			try {
 				setLoading(true);

@@ -26,7 +26,7 @@ export const useLogin = () => {
 		setLoading(true);
 		setError(null);
 		try {
-			const response: LoginResponse = await login({ phone, password });
+			const response: LoginResponse = await login(phone, password);
 			localStorage.setItem('token', response.access);
 			localStorage.setItem('isLoggedIn', 'true');
 			navigate('/');
