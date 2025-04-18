@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { FaBookOpen } from 'react-icons/fa';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './header.css';
 
 const Header = () => {
 	const location = useLocation();
 	const [isScrolled, setIsScrolled] = useState(false);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -15,6 +16,14 @@ const Header = () => {
 		window.addEventListener('scroll', handleScroll);
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
+
+	const handleLogout = () => {
+		localStorage.removeItem('isLoggedIn');
+		localStorage.removeItem('token');
+		navigate('/login');
+	};
+
+	const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
 	return (
 		<header className={isScrolled ? 'header scrolled' : 'header'}>
@@ -54,17 +63,52 @@ const Header = () => {
 						>
 							Library List
 						</Link>
+						{isLoggedIn && (
+							<Link
+								to='/addbooks'
+								className={
+									location.pathname === '/addbooks'
+										? 'active-page'
+										: ''
+								}
+							>
+								Add Books
+							</Link>
+						)}
+
+						{isLoggedIn && (
+							<Link
+								to='/profile'
+								className={
+									location.pathname === '/profile'
+										? 'active-page'
+										: ''
+								}
+							>
+								Profile
+							</Link>
+						)}
 					</div>
 				</div>
 
 				<div className='header-auth'>
-					<Link to='/login'>
-						<button className='header-login'>Login</button>
-					</Link>
+					{!isLoggedIn ? (
+						<>
+							<Link to='/login'>
+								<button className='header-login'>Login</button>
+							</Link>
 
-					<Link to='/register'>
-						<button className='header-register'>Register</button>
-					</Link>
+							<Link to='/register'>
+								<button className='header-register'>
+									Register
+								</button>
+							</Link>
+						</>
+					) : (
+						<button className='header-login' onClick={handleLogout}>
+							Logout
+						</button>
+					)}
 				</div>
 			</div>
 		</header>

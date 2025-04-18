@@ -5,6 +5,25 @@
 	margin-top: 100px;
 }
 
+.back-button {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	background-color: #ce8e2e;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-bottom: 20px;
+	transition: all 0.3s ease;
+}
+
+.back-button:hover {
+	background-color: #a37e2e;
+	transform: translateX(-5px);
+}
+
 .library-card {
 	display: flex;
 	justify-content: space-between;

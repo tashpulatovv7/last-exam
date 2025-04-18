@@ -1,4 +1,3 @@
-import { Button, Form, Input, message, Modal, Spin, Switch } from 'antd';
 import { useState } from 'react';
 import {
 	FaBookOpen,
@@ -8,131 +7,182 @@ import {
 	FaUserCircle,
 	FaUserEdit,
 } from 'react-icons/fa';
-import { updateProfile } from '../../API';
 import useProfile from '../../hooks/useProfile';
 import './profile.css';
 
 const Profile = () => {
 	const { profile, loading, error, refetch } = useProfile();
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isEditing, setIsEditing] = useState(false);
+	const [, setFormData] = useState<any>({});
 
-	const onFinish = async (values: any) => {
-		try {
-			const updatedData = { ...profile, ...values };
-			await updateProfile(updatedData);
-			message.success('Profile updated successfully');
-			setIsModalOpen(false);
-			refetch();
-		} catch (err: any) {
-			message.error(err.message);
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value, type, checked } = e.target;
+
+		if (name.includes('.')) {
+			const [parentKey, childKey] = name.split('.');
+			setFormData((prev: any) => ({
+				...prev,
+				[parentKey]: {
+					...prev[parentKey],
+					[childKey]: type === 'checkbox' ? checked : value,
+				},
+			}));
+		} else {
+			setFormData((prev: any) => ({
+				...prev,
+				[name]: type === 'checkbox' ? checked : value,
+			}));
 		}
 	};
 
-	if (loading) return <Spin size='large' tip='Loading profile...' className='spin' />;
-	if (error || !profile) return <div className='error'>{error || 'No profile data found'}</div>;
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+		try {
+			// const updated = {
+			// 	...profile,
+			// 	...formData,
+			// 	social_media: {
+			// 		...profile.social_media,
+			// 		...(formData.social_media || {}),
+			// 	},
+			// };
+			// await updateProfile(updated);
+			await refetch();
+			setIsEditing(false);
+			setFormData({});
+			alert('Profile updated successfully!');
+		} catch (err) {
+			console.error('Error updating profile:', err);
+			alert('Failed to update profile. Please try again.');
+		}
+	};
+
+	if (loading) return <div className='profile-loading'>Loading profile...</div>;
+	if (error || !profile)
+		return <div className='profile-error'>Error: {error || 'No data found'}</div>;
+
+	const userName = profile?.user ? profile.user.name : 'N/A';
+	const userPhone = profile?.user ? profile.user.phone : 'N/A';
 
 	return (
-		<div className='library-profile-page'>
-			<div className='profile-header-ss'>
+		<div className='profile-container'>
+			<div className='profile-header'>
 				<h1>Library Profile</h1>
-				<Button type='primary' onClick={() => setIsModalOpen(true)}>
-					<FaUserEdit className='edit-icon' />
-					Edit
-				</Button>
+				<button className='edit-button' onClick={() => setIsEditing(true)}>
+					<FaUserEdit /> Edit
+				</button>
 			</div>
 
 			<div className='profile-content'>
-				<div className='info-side'>
+				<div className='profile-info'>
 					<p>
-						<FaIdCard /> <strong>ID:</strong> {profile.id}
+						<FaIdCard /> <strong>ID:</strong> {profile?.id || 'N/A'}
 					</p>
 					<p>
-						<FaMapMarkerAlt /> <strong>Address:</strong> {profile.address}
+						<FaMapMarkerAlt /> <strong>Address:</strong>{' '}
+						{profile?.address || 'N/A'}
 					</p>
 					<p>
 						<FaBookOpen /> <strong>Book Rental:</strong>{' '}
-						{profile.can_rent_books ? 'Available' : 'Unavailable'}
+						{profile?.can_rent_books ? 'Available' : 'Unavailable'}
 					</p>
 					<p>
-						<FaUserCircle /> <strong>User ID:</strong> {profile.user}
+						<FaUserCircle /> <strong>User Name:</strong> {userName}
+					</p>
+					<p>
+						<FaUserCircle /> <strong>User Phone:</strong> {userPhone}
 					</p>
 
-					{profile.social_media?.telegram && (
+					{profile?.social_media?.telegram && (
 						<p>
 							<FaTelegram /> <strong>Telegram:</strong>{' '}
 							<a
 								href={`https://${profile.social_media.telegram}`}
 								target='_blank'
-								rel='noopener noreferrer'
+								rel='noreferrer'
 							>
 								{profile.social_media.telegram}
 							</a>
 						</p>
 					)}
 
-					{profile.image && (
-						<div className='profile-img'>
+					{profile?.image && (
+						<div className='profile-image'>
 							<img src={profile.image} alt='Library' />
 						</div>
 					)}
 				</div>
 
-				<div className='map-side'>
-					{profile.address && profile.address.length > 5 ? (
+				<div className='profile-map'>
+					{profile?.address ? (
 						<iframe
-							width='100%'
-							height='350'
-							style={{ border: 0, borderRadius: '10px' }}
-							loading='lazy'
-							allowFullScreen
 							src={`https://maps.google.com/maps?q=${encodeURIComponent(
 								profile.address
 							)}&z=15&output=embed`}
+							loading='lazy'
+							allowFullScreen
 						></iframe>
 					) : (
-						<div className='no-map'>Address not found</div>
+						<p>No address found</p>
 					)}
 				</div>
 			</div>
 
-			<Modal
-				title='Edit Profile'
-				open={isModalOpen}
-				onCancel={() => setIsModalOpen(false)}
-				footer={null}
-			>
-				<Form layout='vertical' initialValues={profile} onFinish={onFinish}>
-					<Form.Item name='address' label='Address'>
-						<Input />
-					</Form.Item>
+			{isEditing && (
+				<div className='edit-form'>
+					<h3>Edit Profile</h3>
+					<form onSubmit={handleSubmit}>
+						<input
+							type='text'
+							name='address'
+							placeholder='Address'
+							defaultValue={profile.address}
+							onChange={handleChange}
+						/>
 
-					<Form.Item
-						name='can_rent_books'
-						label='Book Rental'
-						valuePropName='checked'
-					>
-						<Switch />
-					</Form.Item>
+						<input
+							type='text'
+							name='social_media.telegram'
+							placeholder='Telegram'
+							defaultValue={profile.social_media?.telegram || ''}
+							onChange={handleChange}
+						/>
 
-					<Form.Item name={['social_media', 'telegram']} label='Telegram Link'>
-						<Input />
-					</Form.Item>
+						<label>
+							<input
+								type='checkbox'
+								name='can_rent_books'
+								defaultChecked={profile.can_rent_books}
+								onChange={handleChange}
+							/>
+							Can Rent Books
+						</label>
 
-					<Form.Item name='latitude' label='Latitude'>
-						<Input />
-					</Form.Item>
+						<input
+							type='text'
+							name='latitude'
+							placeholder='Latitude'
+							defaultValue={profile.latitude}
+							onChange={handleChange}
+						/>
 
-					<Form.Item name='longitude' label='Longitude'>
-						<Input />
-					</Form.Item>
+						<input
+							type='text'
+							name='longitude'
+							placeholder='Longitude'
+							defaultValue={profile.longitude}
+							onChange={handleChange}
+						/>
 
-					<Form.Item>
-						<Button type='primary' htmlType='submit'>
-							Save
-						</Button>
-					</Form.Item>
-				</Form>
-			</Modal>
+						<div className='form-buttons'>
+							<button type='submit'>Save</button>
+							<button type='button' onClick={() => setIsEditing(false)}>
+								Cancel
+							</button>
+						</div>
+					</form>
+				</div>
+			)}
 		</div>
 	);
 };

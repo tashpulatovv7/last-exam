@@ -6,9 +6,29 @@
 
 body {
 	font-family: sans-serif;
+	background-color: #ffffff;
 }
 
 .container {
 	max-width: 1440px;
 	margin: 0 auto;
+}
+
+input {
+	width: 100%;
+	padding: 10px 15px;
+	border: 1px solid #ce8e2e;
+	border-radius: 5px;
+	font-size: 16px;
+	outline: none;
+	transition: all 0.3s ease;
+}
+
+input:focus {
+	border-color: #a37e2e;
+	box-shadow: 0 0 5px rgba(206, 142, 46, 0.3);
+}
+
+input::placeholder {
+	color: #86837e;
 }

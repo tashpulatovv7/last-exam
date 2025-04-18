@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import About from './pages/about/About';
+import AddBooks from './pages/addbooks/AddBooks';
 import Footer from './pages/footer/Footer';
 import Header from './pages/header/Header';
 import Home from './pages/home/Home';
@@ -10,10 +11,15 @@ import Login from './pages/login/Login';
 import Profile from './pages/profile/Profile';
 import Registration from './pages/register/Register';
 
-const App = () => {
-	const queryClient = new QueryClient();
-	const location = useLocation();
+const queryClient = new QueryClient();
 
+const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
+	const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+	return isLoggedIn ? children : <Navigate to='/login' replace />;
+};
+
+const App = () => {
+	const location = useLocation();
 	const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/register';
 
 	return (
@@ -27,7 +33,15 @@ const App = () => {
 				<Route path='/login' element={<Login />} />
 				<Route path='/register' element={<Registration />} />
 				<Route path='/library/:id' element={<LibraryDetail />} />
-				<Route path='/profile' element={<Profile />} />
+				<Route
+					path='/profile'
+					element={
+						<PrivateRoute>
+							<Profile />
+							<Route path='/addbooks' element={<AddBooks />} />
+						</PrivateRoute>
+					}
+				/>
 			</Routes>
 
 			{!hideHeaderFooter && <Footer />}

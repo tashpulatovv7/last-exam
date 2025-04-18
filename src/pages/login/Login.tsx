@@ -7,11 +7,11 @@ import './login.css';
 const Login = () => {
 	const [phone, setPhone] = useState('');
 	const [password, setPassword] = useState('');
-	const { handleLogin, loading } = useLogin();
+	const { handleLogin, loading, error } = useLogin();
 
 	const onSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		handleLogin({ phone, password });
+		handleLogin(phone, password);
 	};
 
 	return (
@@ -42,6 +42,8 @@ const Login = () => {
 						value={password}
 						onChange={e => setPassword(e.target.value)}
 					/>
+
+					{error && <p className='error-text'>{error}</p>}
 
 					<div className='forgot-password'>
 						<a href='#'>Forgot password?</a>

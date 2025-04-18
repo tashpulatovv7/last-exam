@@ -2,11 +2,12 @@
 	position: fixed;
 	top: 0;
 	left: 0;
+	right: 0;
 	width: 100%;
 	z-index: 1000;
 	background-color: #f9f9f9;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	transition: background-color 0.3s ease, box-shadow 0.3s ease;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header.scrolled {
@@ -153,35 +154,5 @@
 @media (max-width: 480px) {
 	.header .container {
 		padding: 10px 15px;
-	}
-
-	.logo {
-		font-size: 24px;
-	}
-}
-
-@media (max-width: 450px) {
-	.header-left {
-		gap: 80px;
-	}
-}
-
-@media (max-width: 420px) {
-	.header-left {
-		gap: 60px;
-	}
-}
-
-@media (max-width: 400px) {
-	.header-left {
-		gap: 40px;
-	}
-}
-
-@media (max-width: 380px) {
-	.header-left {
-		flex-direction: column;
-		gap: 10px;
-		align-items: center;
 	}
 }

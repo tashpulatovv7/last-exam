@@ -10,7 +10,7 @@ const LibraryList = () => {
 	const { libraries, loading, error } = useLibraries();
 
 	const [currentPage, setCurrentPage] = useState(0);
-	const itemsPerPage = 4;
+	const itemsPerPage = 8;
 
 	const filteredLibraries = libraries.filter(
 		library =>

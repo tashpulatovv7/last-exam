@@ -1,9 +1,32 @@
-import { useState } from 'react';
-import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
+import { Carousel } from 'antd';
+import { useRef, useState } from 'react';
+import { FaAngleDown, FaAngleUp, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import './about.css';
 
 const About = () => {
 	const [openIndex, setOpenIndex] = useState<number | null>(null);
+	const carouselRef = useRef<any>(null);
+
+	const carouselData = [
+		{
+			title: 'Tashpulatov Bilolbek',
+			description:
+				'To make knowledge accessible to everyone in Uzbekistan by connecting readers with libraries.',
+			image: 'https://images.unsplash.com/photo-1737408011230-995d7a7aca1b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+		},
+		{
+			title: 'Bekpulatov Bekzod',
+			description:
+				'A dedicated group of developers working to improve access to books and knowledge.',
+			image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+		},
+		{
+			title: 'Mirzaahmadov Ubaydulloh',
+			description:
+				'To create a comprehensive network of libraries across Uzbekistan, making it easier for everyone to find and access books.',
+			image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+		},
+	];
 
 	const faqData = [
 		{
@@ -20,7 +43,7 @@ const About = () => {
 		},
 		{
 			question: 'How can libraries join the system?',
-			answer: 'Libraries can register on our platform by clicking the << Register >> button and following the registration process for librarians. After approval by our admin team, the library will be added to our system.',
+			answer: 'Libraries can register on our platform by clicking the "Register" button and following the registration process for librarians. After approval by our admin team, the library will be added to our system.',
 		},
 		{
 			question: 'Can I borrow books through Ezma?',
@@ -34,6 +57,14 @@ const About = () => {
 
 	const toggleFAQ = (index: number) => {
 		setOpenIndex(openIndex === index ? null : index);
+	};
+
+	const nextSlide = () => {
+		carouselRef.current?.next();
+	};
+
+	const prevSlide = () => {
+		carouselRef.current?.prev();
 	};
 
 	return (
@@ -57,6 +88,36 @@ const About = () => {
 					connect with more readers, promoting a culture of reading and learning
 					throughout Uzbekistan.
 				</p>
+			</div>
+
+			<div className='carousel-container'>
+				<Carousel
+					ref={carouselRef}
+					autoplay
+					dots={true}
+					arrows={true}
+					effect='fade'
+				>
+					{carouselData.map((slide, index) => (
+						<div key={index} className='carousel-slide'>
+							<img
+								src={slide.image}
+								alt={slide.title}
+								className='carousel-image'
+							/>
+							<div className='carousel-text'>
+								<h2>{slide.title}</h2>
+								<p>{slide.description}</p>
+							</div>
+						</div>
+					))}
+				</Carousel>
+				<button className='carousel-button prev' onClick={prevSlide}>
+					<FaChevronLeft />
+				</button>
+				<button className='carousel-button next' onClick={nextSlide}>
+					<FaChevronRight />
+				</button>
 			</div>
 
 			<div className='faq-container'>

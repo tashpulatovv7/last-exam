@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import {
+	FaArrowLeft,
 	FaBook,
 	FaBuilding,
 	FaCheckCircle,
@@ -9,7 +10,7 @@ import {
 	FaTimesCircle,
 	FaUserAlt,
 } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import API from '../../API';
 import './libraryDetails.css';
 
@@ -41,6 +42,7 @@ const getLibraryDetail = async (id: string): Promise<LibraryDetailType> => {
 
 const LibraryDetail = () => {
 	const { id } = useParams();
+	const navigate = useNavigate();
 
 	const { data, isLoading, isError } = useQuery({
 		queryKey: ['libraryDetail', id],
@@ -56,6 +58,9 @@ const LibraryDetail = () => {
 
 	return (
 		<div className='library-detail-container'>
+			<button className='back-button' onClick={() => navigate(-1)}>
+				<FaArrowLeft /> Back
+			</button>
 			<div className='library-card'>
 				<div className='library-image-section'>
 					<img

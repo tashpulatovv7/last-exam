@@ -1,7 +1,6 @@
-import { message } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import API from '../API';
+import { login } from '../API';
 
 export interface LoginData {
 	phone: string;
@@ -18,37 +17,26 @@ export interface LoginResponse {
 	};
 }
 
-const login = async ({ phone, password }: LoginData): Promise<LoginResponse> => {
-	try {
-		const response = await API.post('/auth/login/', { phone, password });
-
-		const data = response.data;
-
-		localStorage.setItem('token', JSON.stringify(data.access));
-
-		return data;
-	} catch (error) {
-		console.error('Login error:', error);
-		throw error;
-	}
-};
-
 export const useLogin = () => {
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState<string | null>(null);
 	const navigate = useNavigate();
 
-	const handleLogin = async (data: LoginData) => {
+	const handleLogin = async (phone: string, password: string) => {
+		setLoading(true);
+		setError(null);
 		try {
-			setLoading(true);
-			await login(data);
-			message.success('Login successful!');
-			// navigate('/profile');
-		} catch (error: any) {
-			message.error('Login failed: Incorrect phone or password');
+			const response: LoginResponse = await login({ phone, password });
+			localStorage.setItem('token', response.access);
+			localStorage.setItem('isLoggedIn', 'true');
+			navigate('/');
+		} catch (err) {
+			console.error('Login failed:', err);
+			setError('Login failed. Please check your credentials.');
 		} finally {
 			setLoading(false);
 		}
 	};
 
-	return { handleLogin, loading };
+	return { loading, error, handleLogin };
 };
